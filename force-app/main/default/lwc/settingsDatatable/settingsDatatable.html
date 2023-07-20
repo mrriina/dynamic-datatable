@@ -1,0 +1,28 @@
+<template>
+    <lightning-card>
+        <div>
+            <lightning-combobox
+                label="Select an object"
+                class="record-request-combobox"
+                options={objectNames}
+                placeholder='Select an object'
+                onchange={hanldeObjectChanged}
+                required
+            ></lightning-combobox>
+        </div>
+        <div if:true={selectedObjectName}>
+            <template for:each={objectFieldsNames} for:item="field">
+                <div key={field} style="display: flex; flex-direction: row;">
+                    <input type="checkbox" name={field} onchange={handleFieldCheckboxChanged} />
+                    <label >{field}</label>
+                </div>
+            </template>
+
+            <lightning-button label="Next"
+                            onclick={clickButtonHandler}
+                            variant="brand"
+                            style="margin-left: 560px; ">
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>
