@@ -1,6 +1,11 @@
 <template>
     <lightning-card>
-        <h1>second component</h1>
-        <h1>{checkedFieldNames}</h1>
+        <template if:true={objectInfo.data}>
+            <lightning-datatable
+                key-field="Id"
+                data={data}
+                columns={columnsInfo}>
+            </lightning-datatable>
+        </template>
     </lightning-card>
 </template>
