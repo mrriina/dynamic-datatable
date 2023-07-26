@@ -42,4 +42,15 @@ public with sharing class DatatableConroller {
         fieldNames.sort();
         return fieldNames;
     }
+
+
+    @AuraEnabled(cacheable=true)
+	public static List<SObject> fetchData(List<String> fieldNames, String objectApiName, String recordId) {
+        System.debug('fieldNames=='+fieldNames);
+        System.debug('objectApiName=='+objectApiName);
+        System.debug('recordId=='+recordId);
+		String query = 'SELECT ' + String.join(fieldNames, ',') + ' FROM ' + objectApiName + ' WHERE ParentId = :parentId';
+        return Database.query(query);
+    }
+
 }
