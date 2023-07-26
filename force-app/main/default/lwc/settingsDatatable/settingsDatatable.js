@@ -5,11 +5,13 @@ import getObjects from '@salesforce/apex/DatatableConroller.getObjects';
 import getObjectFields from '@salesforce/apex/DatatableConroller.getObjectFields';
 
 export default class SettingsDatatable extends NavigationMixin(LightningElement) {
+    showFirstComponent = true;
     currentObjectApiName;
     objectNames = [];
     selectedObjectName;
     objectFieldsNames = [];
     checkedFieldNames = new Set();
+    checkedFieldNamesJSON;
 
     @wire(CurrentPageReference)
     getPageReference(currentPageReference) {
@@ -49,23 +51,26 @@ export default class SettingsDatatable extends NavigationMixin(LightningElement)
     }
 
     clickButtonHandler() {
-        console.log('this.checkedFieldNames==', this.checkedFieldNames);
-        this.navigateToNextComponent();
+        // const checkedFieldNamesArray = Array.from(this.checkedFieldNames);
+        // console.log('this.checkedFieldNamesArray[1]==', checkedFieldNamesArray[1]);
+        // console.log('selectedObjectName= ', this.selectedObjectName);
+        this.checkedFieldNamesJSON = JSON.stringify(Array.from(this.checkedFieldNames));
+        this.showFirstComponent = false;
     }
 
-    navigateToNextComponent() {
-        const checkedFieldNamesArray = Array.from(this.checkedFieldNames);
+    // navigateToNextComponent() {
+    //     const checkedFieldNamesArray = Array.from(this.checkedFieldNames);
 
-        this[NavigationMixin.Navigate]({
-            type: 'standard__component',
-            attributes: {
-                componentName: 'c__showDatatableAura'
-            },
-            state: {
-                c__dataArray: JSON.stringify(checkedFieldNamesArray)
-            }
-        });
-    }
+    //     this[NavigationMixin.Navigate]({
+    //         type: 'standard__webPage',
+    //         attributes: {
+    //             componentName: 'c__showDatatableAura'
+    //         },
+    //         state: {
+    //             c__dataArray: JSON.stringify(checkedFieldNamesArray)
+    //         }
+    //     });
+    // }
 
 
 }

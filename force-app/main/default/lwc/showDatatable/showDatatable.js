@@ -1,15 +1,12 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 
 export default class ShowDatatable extends LightningElement {
-    @wire(CurrentPageReference) pageRef;
-    dataArray;
+    @api checkedFieldNames;
+    @api selectedObjectName;
 
     connectedCallback() {
-        if (this.pageRef && this.pageRef.state && this.pageRef.state.c__dataArray) {
-            this.dataArray = JSON.parse(this.pageRef.state.c__dataArray);
-        }
-
-
+        this.checkedFieldNames = JSON.parse(this.checkedFieldNames);
+        console.log('checkedFieldNames[1]='+this.checkedFieldNames[1]);
     }
 }
