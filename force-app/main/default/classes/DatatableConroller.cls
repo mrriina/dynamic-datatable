@@ -45,12 +45,28 @@ public with sharing class DatatableConroller {
 
 
     @AuraEnabled(cacheable=true)
-	public static List<SObject> fetchData(List<String> fieldNames, String objectApiName, String recordId) {
-        System.debug('fieldNames=='+fieldNames);
-        System.debug('objectApiName=='+objectApiName);
-        System.debug('recordId=='+recordId);
-		String query = 'SELECT ' + String.join(fieldNames, ',') + ' FROM ' + objectApiName + ' WHERE ParentId = :parentId';
-        return Database.query(query);
+	public static List<SObject> fetchData(List<String> fieldNames, String selectedObjectApiName, String currentObjectApiName, String recordId) {
+        List<SObject> relatedRecords = new List<SObject>();
+        
+        SObjectType objectType = Schema.getGlobalDescribe().get(selectedObjectApiName);
+        if (objectType != null) {
+            SObjectType accountType = Schema.getGlobalDescribe().get(currentObjectApiName);
+            Schema.DescribeSObjectResult accountDescribe = accountType.getDescribe();
+            
+            List<Schema.ChildRelationship> childRelationships = accountDescribe.getChildRelationships();
+            
+            for (Schema.ChildRelationship relationship : childRelationships) {
+                String selectedObjectApiNameFromRelationship = relationship.getChildSObject().getDescribe().getName();
+                if (selectedObjectApiNameFromRelationship == selectedObjectApiName) {
+                    String relatedFieldName = relationship.getField().getDescribe().getName();
+                    String soqlQuery = 'SELECT ' + String.join(fieldNames, ',') + ' FROM ' + selectedObjectApiName + ' WHERE ' + relatedFieldName + ' = :recordId'; 
+                    relatedRecords = Database.query(soqlQuery);
+                    break;
+                }
+            }
+        }
+        
+        return relatedRecords;
     }
 
 }

@@ -9,6 +9,7 @@ export default class ShowDatatable extends LightningElement {
     columns = [];
     data = [];
     recordId;
+    currentObjectApiName;
 
     @wire(getObjectInfo, { objectApiName: '$selectedObjectName' })
     objectInfo;
@@ -18,11 +19,15 @@ export default class ShowDatatable extends LightningElement {
     connectedCallback() {
         this.checkedFieldNames = JSON.parse(this.checkedFieldNames);
         this.recordId = this.pageRef.attributes.recordId;
-        
+        this.currentObjectApiName = this.pageRef.attributes.objectApiName;
     }
 
-    @wire(fetchData, {fieldNames: '$checkedFieldNames', objectApiName:'$selectedObjectName', recordId: '$recordId'})
+    @wire(fetchData, {fieldNames: '$checkedFieldNames', selectedObjectApiName:'$selectedObjectName', currentObjectApiName:'$currentObjectApiName', recordId: '$recordId'})
     getDataForDatatable({data, error}){ 
+        console.log('!!checkedFieldNames===', this.checkedFieldNames);
+        console.log('!!selectedObjectName===', this.selectedObjectName);
+        console.log('!!currentObjectApiName===', this.currentObjectApiName);
+        console.log('!!recordId===', this.recordId);
         if(data){ 
             console.log('data==', JSON.stringify(data));
             this.data = data;
