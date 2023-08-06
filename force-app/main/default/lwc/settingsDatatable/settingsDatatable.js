@@ -17,7 +17,7 @@ export default class SettingsDatatable extends NavigationMixin(LightningElement)
     getPageReference(currentPageReference) {
         console.log('here');
         if (currentPageReference) {
-            console.log('in if block');
+            console.log('in if block!');
             this.currentObjectApiName = currentPageReference.attributes.objectApiName;
             this.getObjectsNames();
         }
