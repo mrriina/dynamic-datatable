@@ -20,6 +20,8 @@ export default class ShowDatatable extends LightningElement {
         this.checkedFieldNames = JSON.parse(this.checkedFieldNames);
         this.recordId = this.pageRef.attributes.recordId;
         this.currentObjectApiName = this.pageRef.attributes.objectApiName;
+
+        console.log('objectInfo.data== ', this.objectInfo.data);
     }
 
     @wire(fetchData, {fieldNames: '$checkedFieldNames', selectedObjectApiName:'$selectedObjectName', currentObjectApiName:'$currentObjectApiName', recordId: '$recordId'})
@@ -58,5 +60,15 @@ export default class ShowDatatable extends LightningElement {
                 }
             });
         }
+    }
+
+
+    clickPreviousButtonHandler() {
+        const previousClickedEvent = new CustomEvent("previousbuttonclicked", {
+            detail: true
+        });
+
+        this.dispatchEvent(previousClickedEvent);
+
     }
 }

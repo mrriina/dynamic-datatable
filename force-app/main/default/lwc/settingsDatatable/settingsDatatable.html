@@ -27,7 +27,7 @@
             </div>
         </div>
         <div if:false={showFirstComponent}>
-            <c-show-datatable checked-field-names={checkedFieldNamesJSON} selected-object-name={selectedObjectName}></c-show-datatable>
+            <c-show-datatable checked-field-names={checkedFieldNamesJSON} selected-object-name={selectedObjectName} onpreviousbuttonclicked={showComponentFirstHandler}></c-show-datatable>
         </div>
         
     </lightning-card>

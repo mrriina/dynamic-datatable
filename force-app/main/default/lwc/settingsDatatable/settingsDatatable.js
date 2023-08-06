@@ -15,7 +15,9 @@ export default class SettingsDatatable extends NavigationMixin(LightningElement)
 
     @wire(CurrentPageReference)
     getPageReference(currentPageReference) {
+        console.log('here');
         if (currentPageReference) {
+            console.log('in if block');
             this.currentObjectApiName = currentPageReference.attributes.objectApiName;
             this.getObjectsNames();
         }
@@ -37,7 +39,8 @@ export default class SettingsDatatable extends NavigationMixin(LightningElement)
         getObjectFields({ objectName: this.selectedObjectName})
             .then((result) => {
                 this.objectFieldsNames = result;
-            }).catch(error => {
+            })
+            .catch(error => {
                 console.log('Error: ', error.body.message);
         });
     }
@@ -51,26 +54,17 @@ export default class SettingsDatatable extends NavigationMixin(LightningElement)
     }
 
     clickButtonHandler() {
-        // const checkedFieldNamesArray = Array.from(this.checkedFieldNames);
-        // console.log('this.checkedFieldNamesArray[1]==', checkedFieldNamesArray[1]);
-        // console.log('selectedObjectName= ', this.selectedObjectName);
         this.checkedFieldNamesJSON = JSON.stringify(Array.from(this.checkedFieldNames));
         this.showFirstComponent = false;
     }
 
-    // navigateToNextComponent() {
-    //     const checkedFieldNamesArray = Array.from(this.checkedFieldNames);
+    showComponentFirstHandler() {
+        this.showFirstComponent = true;
+        this.selectedObjectName = null;
+        this.objectFieldsNames = [];
+        this.checkedFieldNames = null;
 
-    //     this[NavigationMixin.Navigate]({
-    //         type: 'standard__webPage',
-    //         attributes: {
-    //             componentName: 'c__showDatatableAura'
-    //         },
-    //         state: {
-    //             c__dataArray: JSON.stringify(checkedFieldNamesArray)
-    //         }
-    //     });
-    // }
-
+        this.getPageReference();
+    }
 
 }

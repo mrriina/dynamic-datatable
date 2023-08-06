@@ -48,12 +48,12 @@ public with sharing class DatatableConroller {
 	public static List<SObject> fetchData(List<String> fieldNames, String selectedObjectApiName, String currentObjectApiName, String recordId) {
         List<SObject> relatedRecords = new List<SObject>();
         
-        SObjectType objectType = Schema.getGlobalDescribe().get(selectedObjectApiName);
-        if (objectType != null) {
-            SObjectType accountType = Schema.getGlobalDescribe().get(currentObjectApiName);
-            Schema.DescribeSObjectResult accountDescribe = accountType.getDescribe();
+        SObjectType selectedObjectType = Schema.getGlobalDescribe().get(selectedObjectApiName);
+        if (selectedObjectType != null) {
+            SObjectType currentObjectType = Schema.getGlobalDescribe().get(currentObjectApiName);
+            Schema.DescribeSObjectResult currentObjectDescribe = currentObjectType.getDescribe();
             
-            List<Schema.ChildRelationship> childRelationships = accountDescribe.getChildRelationships();
+            List<Schema.ChildRelationship> childRelationships = currentObjectDescribe.getChildRelationships();
             
             for (Schema.ChildRelationship relationship : childRelationships) {
                 String selectedObjectApiNameFromRelationship = relationship.getChildSObject().getDescribe().getName();
